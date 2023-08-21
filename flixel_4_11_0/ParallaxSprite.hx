@@ -35,10 +35,9 @@ class ParallaxSprite extends FlxSprite {
 	}
 
 	/**
-	 * Call this function to anchor the sprite's neutral position, set skew factors, and set the direction.
-	 * These can be set outside of this function, but doing so may lead to the sprite behaving unexpectedly.
-	 * @param anchorX       (deprecated) the camera position where the sprite's x axis appears unchanged.
-	 * @param anchorY       (deprecated) the camera position where the sprite's y axis appears unchanged.
+	 * Sets the sprite's skew factors and direction. These can be set independently but may lead to unexpected behaivor.
+	 * @param anchorX       the camera scroll x where the sprite's x axis appears unchanged.
+	 * @param anchorY       the camera scroll y where the sprite's y axis appears unchanged.
 	 * @param scrollOneX        the horizontal scroll factor of the first point.
 	 * @param scrollOneY        the vertical scroll factor of the first point.
 	 * @param scrollTwoX        the horizontal scroll factor fo the second point.
