@@ -17,7 +17,7 @@ enum Direction {
 }
 
 /**
- * @author Itz_Miles
+ * @author Itz-Miles
  */
 class ParallaxSprite extends FlxSprite {
 	private var pointOne:FlxObject = new FlxObject();
