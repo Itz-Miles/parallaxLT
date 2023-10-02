@@ -10,6 +10,11 @@ import flixel.graphics.frames.FlxFrame.FlxFrameAngle;
 import flixel.FlxObject;
 import flixel.math.FlxPoint;
 
+/** An enum instance that determines what transformations are made to the sprite.
+ * @param HORIZONTAL   typically for ceilings and floors. Skews on the x axis, scales on the y axis.
+ * @param VERTICAL     typically for walls and backdrops. Scales on the x axis, skews on the y axis.
+ * @param NULL         unintallized value. Not to be confused with bools `scales` and `skews`
+ */
 enum Direction {
 	HORIZONTAL;
 	VERTICAL;
@@ -17,37 +22,40 @@ enum Direction {
 }
 
 /**
+ * The Parallax class is a FlxSprite extension that does linear transformations to mimic 3D graphics.
  * @author Itz-Miles
  */
 class ParallaxSprite extends FlxSprite {
 	private var pointOne:FlxObject = new FlxObject();
 	private var pointTwo:FlxObject = new FlxObject();
-	private var _bufferOne:FlxPoint = new FlxPoint();
-	private var _bufferTwo:FlxPoint = new FlxPoint();
+	private var _bufferOne:FlxPoint = FlxPoint.get();
+	private var _bufferTwo:FlxPoint = FlxPoint.get();
 
 	public var direction:Direction = Direction.NULL;
 
-	public function new(x:Float = 0, y:Float = 0, graphic:FlxGraphicAsset) {
-		super(x, y);
-		loadGraphic(graphic);
+	/**
+	 * Creates a ParallaxSprite at specified position with a specified graphic.
+	 * @param graphic  The graphic to load (uses haxeflixel's default if null)
+	 * @param   X	   The ParallaxSprite's initial X position.
+	 * @param   Y	   The ParllaxSprite's initial Y position.
+	 */
+	public function new(X:Float = 0, Y:Float = 0, graphic:FlxGraphicAsset) {
+		super(X, Y, graphic);
 		origin.set(0, 0);
 	}
 
 	/**
-	 * Sets the sprite's skew factors and direction. These can be set independently but may lead to unexpected behaivor.
-	 * @param anchorX       the camera scroll x where the sprite's x axis appears unchanged.
-	 * @param anchorY       the camera scroll y where the sprite's y axis appears unchanged.
-	 * @param scrollOneX        the horizontal scroll factor of the first point.
-	 * @param scrollOneY        the vertical scroll factor of the first point.
-	 * @param scrollTwoX        the horizontal scroll factor fo the second point.
-	 * @param scrollTwoY        the vertical scroll factor of the second point.
-	 * @param direct        the sprite's direction, which determines the skew.
-	 * 
-	 * @param direct_horizontal     direct argument. typically for ceilings and floors. Skews on the x axis, stretches on the y axis.
-	 * @param direct_vertical       direct argument. typically for walls and backdrops. Stretches on the x axis, skews on the y axis.
-	**/
+	 * Sets the sprites skew factors, direction.
+	 * These can be set independently but may lead to unexpected behaivor.
+	 * @param anchor 		   the camera's scroll where the sprite appears unchanged.
+	 * @param scrollOne        the scroll factors of the first point.
+	 * @param scrollTwo        the scroll factors fo the second point.
+	 * @param direction        the sprite's direction, which determines the skew.
+	 * @param horizontal       typically for ceilings and floors. Skews on the x axis, scales on the y axis.
+	 * @param vertical         typically for walls and backdrops. Scales on the x axis, skews on the y axis.
+	 */
 	public function fixate(anchorX:Int = 0, anchorY:Int = 0, scrollOneX:Float = 1, scrollOneY:Float = 1, scrollTwoX:Float = 1.1, scrollTwoY:Float = 1.1,
-			direct:String = 'horizontal'):Void {
+			direct:String = 'horizontal'):ParallaxSprite {
 		pointOne.scrollFactor.set(1, 1);
 		pointTwo.scrollFactor.set(1, 1);
 		pointOne.setPosition((anchorX + x), (anchorY + y));
@@ -62,14 +70,14 @@ class ParallaxSprite extends FlxSprite {
 		scrollFactor.set(scrollOneX, scrollOneY);
 		pointOne.scrollFactor.set(scrollOneX, scrollOneY);
 		pointTwo.scrollFactor.set(scrollTwoX, scrollTwoY);
-		// wondering if there's enough demand to return the instance for chaining
+		return this;
 	}
 
 	override public function destroy():Void {
 		pointOne = null;
 		pointTwo = null;
-		_bufferOne = null;
-		_bufferTwo = null;
+		_bufferOne.put();
+		_bufferTwo.put();
 		direction = null;
 		super.destroy();
 	}
@@ -116,3 +124,25 @@ class ParallaxSprite extends FlxSprite {
 	}
 }
 #end
+
+/*
+	Project your visuals with linear transformations that seamlessly integrate with HaxeFlixel's scrollfactors!
+	Classic ParallaxSprite class for ParallaxLT
+	https://github.com/Itz-Miles/parallaxLT
+
+		Comply with the license!!!
+
+		© 2022 It'z_Miles - some rights rerserved.
+
+		Licensed under the Apache License, Version 2.0 (the "License");
+		you may not use this file except in compliance with the License.
+		You may obtain a copy of the License at
+
+			http://www.apache.org/licenses/LICENSE-2.0
+
+		Unless required by applicable law or agreed to in writing, software
+		distributed under the License is distributed on an "AS IS" BASIS,
+		WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+		See the License for the specific language governing permissions and
+		limitations under the License.
+ */
