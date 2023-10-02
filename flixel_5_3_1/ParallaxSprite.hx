@@ -27,7 +27,7 @@ class ParallaxSprite extends FlxSprite {
 
 	public var direction:Direction = Direction.NULL;
 
-	public function new(graphic:FlxGraphicAsset, x:Float = 0, y:Float = 0) {
+	public function new(x:Float = 0, y:Float = 0, graphic:FlxGraphicAsset) {
 		super(x, y);
 		loadGraphic(graphic);
 		origin.set(0, 0);
