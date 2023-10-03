@@ -1,11 +1,11 @@
 {
-    "name": "parallax3d",
-    "url": "https://github.com/Itz-Miles/parallax3d",
+    "name": "parallaxlt",
+    "url": "https://github.com/Itz-Miles/parallaxlt",
     "license": "Apache",
-    "tags": ["haxeflixel", "3d", "2-5d", "parallax", "skew"],
+    "tags": ["haxeflixel", "3d", "2-5d", "parallax", "skew", "matrix"],
     "description": "Transform your visuals with perspective projections that seamlessly integrate with haxeflixel's scrollfactors",
-    "version": "1.0.0",
-	"releasenote": "",
+    "version": "0.0.0",
+	"releasenote": "Initial release.",
     "contributors": [
       "Itz-Miles"
     ]
