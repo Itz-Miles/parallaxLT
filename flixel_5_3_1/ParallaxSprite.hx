@@ -72,6 +72,24 @@ class ParallaxSprite extends FlxSprite {
 		pointTwo.scrollFactor.set(scrollTwoX, scrollTwoY);
 		return this;
 	}
+	override public function getScreenBounds(?newRect:FlxRect, ?camera:FlxCamera):FlxRect
+	{
+		if (newRect == null)
+			newRect = FlxRect.get();
+
+		if (camera == null)
+			camera = FlxG.camera;
+
+		newRect.setPosition(x, y);
+		if (pixelPerfectPosition)
+			newRect.floor();
+		newRect.x += -Std.int(camera.scroll.x * scrollFactor.x) - offset.x + origin.x;
+		newRect.y += -Std.int(camera.scroll.y * scrollFactor.y) - offset.y + origin.y;
+		if (isPixelPerfectRender(camera))
+			newRect.floor();
+		newRect.setSize(frameWidth * _matrix.a, frameHeight * _matrix.d);
+		return newRect.getRotatedBounds(angle, _scaledOrigin, newRect);
+	}
 
 	override public function destroy():Void {
 		pointOne = null;
@@ -87,7 +105,6 @@ class ParallaxSprite extends FlxSprite {
 		_frame.prepareMatrix(_matrix, FlxFrameAngle.ANGLE_0, checkFlipX(), checkFlipY());
 		updateScrollMatrix();
 		_matrix.translate(-origin.x, -origin.y);
-		_matrix.scale(scale.x, scale.y);
 
 		if (bakedRotationAngle <= 0) {
 			updateTrig();
@@ -116,10 +133,10 @@ class ParallaxSprite extends FlxSprite {
 
 		if (direction == HORIZONTAL) {
 			_matrix.c = (_bufferTwo.x - _bufferOne.x) / frameHeight;
-			scale.y = (_bufferTwo.y - _bufferOne.y) / frameHeight;
+			_matrix.d = (_bufferTwo.y - _bufferOne.y) / frameHeight;
 		} else if (direction == VERTICAL) {
 			_matrix.b = (_bufferTwo.y - _bufferOne.y) / frameWidth;
-			scale.x = (_bufferTwo.x - _bufferOne.x) / frameWidth;
+			_matrix.a = (_bufferTwo.x - _bufferOne.x) / frameWidth;
 		}
 	}
 }
