@@ -5,7 +5,7 @@
     "tags": ["haxeflixel", "3d", "2-5d", "2d", "parallax", "skew", "matrix"],
     "description": "Distort sprites via Linear Transformations. Mimic 3D graphics while integrating with Haxeflixel's scrollFactors.",
     "version": "0.0.2",
-	"releasenote": "fixate() is case insensitive, and more argument localization has been added.",
+	"releasenote": "fixate() is case-insensitive, and more argument localization has been added.",
     "contributors": [
       "Itz-Miles"
     ]
