@@ -71,12 +71,12 @@ class ParallaxSprite extends FlxSprite
 		pointTwo.scrollFactor.set(1, 1);
 		pointOne.setPosition(anchorX + x, anchorY + y);
 
-		switch (direct)
+		switch (direct.toLowerCase())
 		{
-			case 'horizontal' | 'orizzontale':
+			case 'horizontal', 'orizzontale', 'horisontell':
 				direction = HORIZONTAL;
 				pointTwo.setPosition((x + anchorX), (y + anchorY + frameHeight));
-			case 'vertical' | 'vertikale' | 'verticale':
+			case 'vertical', 'vertikale', 'verticale', 'vertikal':
 				direction = VERTICAL;
 				pointTwo.setPosition((x + anchorX + frameWidth), (y + anchorY));
 		}
