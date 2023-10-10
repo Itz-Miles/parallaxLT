@@ -48,11 +48,9 @@ class ParallaxSprite extends FlxSprite
 	 * @param   X			The ParallaxSprite's initial X position.
 	 * @param   Y			The ParllaxSprite's initial Y position.
 	 */
-	public function new(graphic:FlxGraphicAsset, x:Float = 0, y:Float = 0)
+	public function new(x:Float = 0, y:Float = 0, graphic:FlxGraphicAsset)
 	{
-		super(x, y);
-		loadGraphic(graphic);
-		antialiasing = ClientPrefs.globalAntialiasing;
+		super(x, y. graphic);
 		origin.set(0, 0);
 	}
 
