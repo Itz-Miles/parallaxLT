@@ -50,7 +50,7 @@ class ParallaxSprite extends FlxSprite
 	 */
 	public function new(x:Float = 0, y:Float = 0, graphic:FlxGraphicAsset)
 	{
-		super(x, y. graphic);
+		super(x, y, graphic);
 		origin.set(0, 0);
 	}
 
