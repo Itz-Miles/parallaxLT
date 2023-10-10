@@ -1,8 +1,9 @@
 #if (flixel >= "4.11.0" && flixel <= "5.0.0")
 package flixel_4_11_0;
 
+import flixel.math.FlxRect;
 import flixel.system.FlxAssets.FlxGraphicAsset;
-import flash.geom.Matrix;
+import openfl.geom.Matrix;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -10,49 +11,68 @@ import flixel.graphics.frames.FlxFrame.FlxFrameAngle;
 import flixel.FlxObject;
 import flixel.math.FlxPoint;
 
-enum Direction {
+/** An enum instance that determines what transformations are made to the sprite.
+ * @param HORIZONTAL   typically for ceilings and floors. Skews on the x axis, scales on the y axis.
+ * @param VERTICAL     typically for walls and backdrops. Scales on the x axis, skews on the y axis.
+ * @param NULL         unintallized value. Not to be confused with bools `scales` and `skews`
+ */
+@enum
+enum Direction
+{
 	HORIZONTAL;
 	VERTICAL;
 	NULL;
 }
 
 /**
+ * The Parallax class is a FlxSprite extension that does linear transformations to mimic 3D graphics
  * @author Itz-Miles
  */
-class ParallaxSprite extends FlxSprite {
+class ParallaxSprite extends FlxSprite
+{
 	private var pointOne:FlxObject = new FlxObject();
 	private var pointTwo:FlxObject = new FlxObject();
-	private var _bufferOne:FlxPoint = new FlxPoint();
-	private var _bufferTwo:FlxPoint = new FlxPoint();
-	var _scrollMatrix:Matrix = new Matrix();
+	private var _bufferOne:FlxPoint = FlxPoint.get();
+	private var _bufferTwo:FlxPoint = FlxPoint.get();
 
+	/** An enum instance that determines what transformations are made to the sprite.
+	 * @param HORIZONTAL    typically for ceilings and floors. Skews on the x axis, scales on the y axis.
+	 * @param VERTICAL      typically for walls and backdrops. Scales on the x axis, skews on the y axis.
+	 * @param NULL          unintallized value. Not to be confused with bools `scales` and `skews`
+	**/
 	public var direction:Direction = Direction.NULL;
 
-	public function new(graphic:FlxGraphicAsset, x:Float = 0, y:Float = 0) {
-		super(x, y);
-		loadGraphic(graphic);
+	/**
+	 * Creates a ParallaxSprite at specified position with a specified graphic.
+	 * @param   X			The ParallaxSprite's initial X position.
+	 * @param   Y			The ParllaxSprite's initial Y position.
+ 	 * @param graphic		The graphic to load (uses haxeflixel's default if null)
+	 */
+	public function new(X:Float = 0, Y:Float = 0, graphic:FlxGraphicAsset) 
+	{
+		super(X, Y, graphic);
 		origin.set(0, 0);
 	}
 
 	/**
-	 * Sets the sprite's skew factors and direction. These can be set independently but may lead to unexpected behaivor.
-	 * @param anchorX       the camera scroll x where the sprite's x axis appears unchanged.
-	 * @param anchorY       the camera scroll y where the sprite's y axis appears unchanged.
-	 * @param scrollOneX        the horizontal scroll factor of the first point.
-	 * @param scrollOneY        the vertical scroll factor of the first point.
-	 * @param scrollTwoX        the horizontal scroll factor fo the second point.
-	 * @param scrollTwoY        the vertical scroll factor of the second point.
-	 * @param direct        the sprite's direction, which determines the skew.
-	 * 
-	 * @param direct_horizontal     direct argument. typically for ceilings and floors. Skews on the x axis, stretches on the y axis.
-	 * @param direct_vertical       direct argument. typically for walls and backdrops. Stretches on the x axis, skews on the y axis.
+	 * Sets the sprites skew factors, direction.
+	 * These can be set independently but may lead to unexpected behaivor.
+	 * @param anchor 	   the camera's scroll where the sprite appears unchanged.
+	 * @param scrollOne        the scroll factors of the first point.
+	 * @param scrollTwo        the scroll factors of the second point.
+	 * @param direction        the sprite's direction, which determines the skew.
+	 * @param horizontal       typically for ceilings and floors. Skews on the x axis, scales on the y axis.
+	 * @param vertical         typically for walls and backdrops. Scales on the x axis, skews on the y axis.
 	**/
 	public function fixate(anchorX:Int = 0, anchorY:Int = 0, scrollOneX:Float = 1, scrollOneY:Float = 1, scrollTwoX:Float = 1.1, scrollTwoY:Float = 1.1,
-			direct:String = 'horizontal'):Void {
+			direct:String = 'horizontal'):ParallaxSprite
+	{
 		pointOne.scrollFactor.set(1, 1);
 		pointTwo.scrollFactor.set(1, 1);
-		pointOne.setPosition((anchorX + x), (anchorY + y));
-		switch (direct) {
+		pointOne.setPosition(anchorX + x, anchorY + y);
+
+		switch (direct)
+		{
 			case 'horizontal' | 'orizzontale':
 				direction = HORIZONTAL;
 				pointTwo.setPosition((x + anchorX), (y + anchorY + frameHeight));
@@ -63,61 +83,78 @@ class ParallaxSprite extends FlxSprite {
 		scrollFactor.set(scrollOneX, scrollOneY);
 		pointOne.scrollFactor.set(scrollOneX, scrollOneY);
 		pointTwo.scrollFactor.set(scrollTwoX, scrollTwoY);
-		// wondering if there's enough demand to return the instance for chaining
+		return this;
 	}
 
-	override public function destroy():Void {
+	override public function getScreenBounds(?newRect:FlxRect, ?camera:FlxCamera):FlxRect
+	{
+		if (newRect == null)
+			newRect = FlxRect.get();
+
+		if (camera == null)
+			camera = FlxG.camera;
+
+		newRect.setPosition(x, y);
+		if (pixelPerfectPosition)
+			newRect.floor();
+		newRect.x += -Std.int(camera.scroll.x * scrollFactor.x) - offset.x + origin.x;
+		newRect.y += -Std.int(camera.scroll.y * scrollFactor.y) - offset.y + origin.y;
+		if (isPixelPerfectRender(camera))
+			newRect.floor();
+		newRect.setSize(frameWidth * _matrix.a, frameHeight * _matrix.d);
+		return newRect.getRotatedBounds(angle, _scaledOrigin, newRect);
+	}
+
+	override public function destroy():Void
+	{
 		pointOne = null;
 		pointTwo = null;
-		_bufferOne = null;
-		_bufferTwo = null;
+		_bufferOne.put();
+		_bufferTwo.put();
 		direction = null;
-		_scrollMatrix = null;
 		super.destroy();
 	}
 
-	override function drawComplex(camera:FlxCamera):Void {
-		_frame.prepareMatrix(_matrix, FlxFrameAngle.ANGLE_0, flipX, flipY);
-		_matrix.translate(-origin.x, -origin.y);
+	@:noCompletion
+	override function drawComplex(camera:FlxCamera):Void
+	{
+		_frame.prepareMatrix(_matrix, FlxFrameAngle.ANGLE_0, checkFlipX(), checkFlipY());
+		_bufferOne.copyFrom(pointOne.getScreenPosition());
+		_bufferTwo.copyFrom(pointTwo.getScreenPosition());
 
-		if (bakedRotationAngle <= 0) {
+		if (direction == HORIZONTAL)
+		{
+			_matrix.c = (_bufferTwo.x - _bufferOne.x) / frameHeight;
+			_matrix.d = (_bufferTwo.y - _bufferOne.y) / frameHeight;
+		}
+		else if (direction == VERTICAL)
+		{
+			_matrix.b = (_bufferTwo.y - _bufferOne.y) / frameWidth;
+			_matrix.a = (_bufferTwo.x - _bufferOne.x) / frameWidth;
+		}
+
+		if (bakedRotationAngle <= 0)
+		{
 			updateTrig();
 
 			if (angle != 0)
 				_matrix.rotateWithTrig(_cosAngle, _sinAngle);
 		}
 
-		updateScrollMatrix();
-		_matrix.scale(scale.x, scale.y);
-
 		_point.addPoint(origin);
 		if (isPixelPerfectRender(camera))
 			_point.floor();
+		_matrix.tx += _point.x;
+		_matrix.ty += _point.y;
 
-		_matrix.translate(_point.x, _point.y);
-		camera.drawPixels(_frame, framePixels, _matrix, colorTransform, blend, antialiasing);
+		camera.drawPixels(_frame, framePixels, _matrix, colorTransform, blend, antialiasing, shader);
 	}
 
-	override public function isSimpleRender(?camera:FlxCamera):Bool {
+	override public function isSimpleRender(?camera:FlxCamera):Bool
+	{
 		if (!FlxG.renderBlit)
 			return false;
-
-		return super.isSimpleRender(camera) && (_scrollMatrix.c == 0) && (_scrollMatrix.b == 0);
-	}
-
-	private function updateScrollMatrix():Void {
-		_scrollMatrix.identity();
-		_bufferOne.copyFrom(pointOne.getScreenPosition());
-		_bufferTwo.copyFrom(pointTwo.getScreenPosition());
-
-		if (direction == HORIZONTAL) {
-			_scrollMatrix.c = (_bufferTwo.x - _bufferOne.x) / frameHeight;
-			scale.y = (_bufferTwo.y - _bufferOne.y) / frameHeight;
-		} else if (direction == VERTICAL) {
-			_scrollMatrix.b = (_bufferTwo.y - _bufferOne.y) / frameWidth;
-			scale.x = (_bufferTwo.x - _bufferOne.x) / frameWidth;
-		}
-		_matrix.concat(_scrollMatrix);
+		return super.isSimpleRender(camera) && _matrix.c == 0 && _matrix.b == 0;
 	}
 }
 #end
