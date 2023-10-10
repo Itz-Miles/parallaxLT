@@ -142,6 +142,8 @@ class ParallaxSprite extends FlxSprite
 		}
 
 		getScreenPosition(_point, camera).subtractPoint(offset);
+		if (isPixelPerfectRender(camera))
+			_point.floor();
 		_matrix.tx += _point.x;
 		_matrix.ty += _point.y;
 
