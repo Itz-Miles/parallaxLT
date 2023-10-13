@@ -87,23 +87,28 @@ class ParallaxSprite extends FlxSprite
 	}
 
 	override public function getScreenBounds(?newRect:FlxRect, ?camera:FlxCamera):FlxRect
-	{
-		if (newRect == null)
-			newRect = FlxRect.get();
-
-		if (camera == null)
-			camera = FlxG.camera;
-
-		newRect.setPosition(x, y);
-		if (pixelPerfectPosition)
-			newRect.floor();
-		newRect.x += -Std.int(camera.scroll.x * scrollFactor.x) - offset.x + origin.x;
-		newRect.y += -Std.int(camera.scroll.y * scrollFactor.y) - offset.y + origin.y;
-		if (isPixelPerfectRender(camera))
-			newRect.floor();
-		newRect.setSize(frameWidth * _matrix.a, frameHeight * _matrix.d);
-		return newRect.getRotatedBounds(angle, _scaledOrigin, newRect);
-	}
+		{
+			if (newRect == null)
+				newRect = FlxRect.get();
+		
+			if (camera == null)
+				camera = FlxG.camera;
+			// i give up, there isn't an elegant solution to this that doesnt introduce breaking changes
+			_bufferOne.copyFrom(pointOne.getScreenPosition(camera));
+			_bufferTwo.copyFrom(pointTwo.getScreenPosition(camera));
+		
+			x - camera.scroll.x * scrollFactor.x;
+			var screenY:Float = y - camera.scroll.y * scrollFactor.y;
+		
+			newRect.width = frameWidth;
+			newRect.frameHeight = frameHeight;
+		
+			if (isPixelPerfectRender(camera))
+				newRect.floor();
+		
+			return newRect.getRotatedBounds(angle, _scaledOrigin, newRect);
+			// im gonna push to production anyways
+		}
 
 	override public function destroy():Void
 	{
@@ -119,8 +124,6 @@ class ParallaxSprite extends FlxSprite
 	override function drawComplex(camera:FlxCamera):Void
 	{
 		_frame.prepareMatrix(_matrix, FlxFrameAngle.ANGLE_0, checkFlipX(), checkFlipY());
-		_bufferOne.copyFrom(pointOne.getScreenPosition());
-		_bufferTwo.copyFrom(pointTwo.getScreenPosition());
 
 		if (direction == HORIZONTAL)
 		{
