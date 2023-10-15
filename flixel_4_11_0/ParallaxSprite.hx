@@ -101,7 +101,7 @@ class ParallaxSprite extends FlxSprite
 			var screenY:Float = y - camera.scroll.y * scrollFactor.y;
 		
 			newRect.width = frameWidth;
-			newRect.frameHeight = frameHeight;
+			newRect.height = frameHeight;
 		
 			if (isPixelPerfectRender(camera))
 				newRect.floor();
