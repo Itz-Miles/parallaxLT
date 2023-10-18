@@ -46,9 +46,9 @@ class ParallaxSprite extends FlxSprite
 	 * Creates a ParallaxSprite at specified position with a specified graphic.
 	 * @param   X			The ParallaxSprite's initial X position.
 	 * @param   Y			The ParllaxSprite's initial Y position.
- 	 * @param graphic		The graphic to load (uses haxeflixel's default if null)
+	  	 * @param graphic		The graphic to load (uses haxeflixel's default if null)
 	 */
-	public function new(X:Float = 0, Y:Float = 0, graphic:FlxGraphicAsset) 
+	public function new(X:Float = 0, Y:Float = 0, graphic:FlxGraphicAsset)
 	{
 		super(X, Y, graphic);
 		origin.set(0, 0);
@@ -87,28 +87,26 @@ class ParallaxSprite extends FlxSprite
 	}
 
 	override public function getScreenBounds(?newRect:FlxRect, ?camera:FlxCamera):FlxRect
-		{
-			if (newRect == null)
-				newRect = FlxRect.get();
-		
-			if (camera == null)
-				camera = FlxG.camera;
-			// i give up, there isn't an elegant solution to this that doesnt introduce breaking changes
-			_bufferOne.copyFrom(pointOne.getScreenPosition(camera));
-			_bufferTwo.copyFrom(pointTwo.getScreenPosition(camera));
-		
-			x - camera.scroll.x * scrollFactor.x;
-			var screenY:Float = y - camera.scroll.y * scrollFactor.y;
-		
-			newRect.width = frameWidth;
-			newRect.height = frameHeight;
-		
-			if (isPixelPerfectRender(camera))
-				newRect.floor();
-		
-			return newRect.getRotatedBounds(angle, _scaledOrigin, newRect);
-			// im gonna push to production anyways
-		}
+	{
+		if (newRect == null)
+			newRect = FlxRect.get();
+
+		if (camera == null)
+			camera = FlxG.camera;
+		_bufferOne.copyFrom(pointOne.getScreenPosition(camera));
+		_bufferTwo.copyFrom(pointTwo.getScreenPosition(camera));
+
+		newRect.x = x - camera.scroll.x * scrollFactor.x;
+		newRect.y = y - camera.scroll.y * scrollFactor.y;
+
+		newRect.width = frameWidth;
+		newRect.height = frameHeight;
+
+		if (isPixelPerfectRender(camera))
+			newRect.floor();
+
+		return newRect.getRotatedBounds(angle, _scaledOrigin, newRect);
+	}
 
 	override public function destroy():Void
 	{
