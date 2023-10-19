@@ -18,17 +18,13 @@ To get started with ParallaxLT, simply install it however you like as a Haxelib:
     {
       "name": "parallaxlt",
       "type": "haxelib",
-      "version": "0.0.0"
+      "version": null
     }
 ```
 
 Once that's said and done, declare it in your haxeflixel project:
 
 `<haxelib name="parallaxlt"/>`
-
-## Usage
-
-- usage examples here, refer to wiki, yada yada
 
 ## Licensing
 
