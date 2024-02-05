@@ -1,5 +1,5 @@
 
-# ParallaxLT - Transform Sprites to Mimic 3D Graphics
+# ParallaxLT - Transform Sprites to Mimic 3D Graphics in Haxeflixel
 
 ![](https://img.shields.io/github/repo-size/Itz-Miles/parallaxlt) ![](https://badgen.net/github/open-issues/Itz-Miles/parallaxlt) ![](https://badgen.net/badge/license/Apache%202.0)
 
@@ -44,6 +44,6 @@ limitations under the License.
 <div align="center">
 
 ## Credits
-| ![](https://avatars.githubusercontent.com/u/95124554?s=64) | [It'z_Miles](https://twitter.com/Itz_MilesDev) | Creator of ParallaxLT
-| ------ | -------- | ----------- |
+| ![](https://avatars.githubusercontent.com/u/95124554?s=64) | [It'z_Miles](https://twitter.com/Itz_MilesDev) | Creator of ParallaxLT |
+| ---------------------------------------------------------- | ---------------------------------------------- | --------------------- |
 </div>
