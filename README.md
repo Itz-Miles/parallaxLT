@@ -1,6 +1,9 @@
-# ParallaxLT - Parallax Scrolling Meets Linear Transformations
 
-ParallaxLT is a powerful and easy-to-use library that distorts sprites via linear transaformations to mimic 3D graphics in Haxeflixel.
+# ParallaxLT - Transform Sprites to Mimic 3D Graphics in Haxeflixel
+
+![](https://img.shields.io/github/repo-size/Itz-Miles/parallaxlt) ![](https://badgen.net/github/open-issues/Itz-Miles/parallaxlt) ![](https://badgen.net/badge/license/Apache%202.0)
+
+ParallaxLT is a powerful and easy-to-use Haxe library that distorts sprites via linear transaformations to mimic 3D graphics in [HaxeFlixel](https://haxeflixel.com).
 
 - Thourough Haxeflixel Support: Import a fine-tuned version of ParallaxSprite for your preferred version.
   
@@ -18,17 +21,13 @@ To get started with ParallaxLT, simply install it however you like as a Haxelib:
     {
       "name": "parallaxlt",
       "type": "haxelib",
-      "version": "0.0.0"
+      "version": null
     }
 ```
 
 Once that's said and done, declare it in your haxeflixel project:
 
 `<haxelib name="parallaxlt"/>`
-
-## Usage
-
-- usage examples here, refer to wiki, yada yada
 
 ## Licensing
 
@@ -44,10 +43,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 <div align="center">
 
-| ![Image Alt Text](miles.png) |
-|:-----------------------------:|
-|https://twitter.com/Itz_MilesDev|
-
+## Credits
+| ![](https://avatars.githubusercontent.com/u/95124554?s=64) | [It'z_Miles](https://twitter.com/Itz_MilesDev) | Creator of ParallaxLT |
+| ---------------------------------------------------------- | ---------------------------------------------- | --------------------- |
 </div>
-
-
