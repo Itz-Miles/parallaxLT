@@ -1,4 +1,4 @@
-package;
+package parallaxlt;
 
 import flixel.math.FlxRect;
 import flixel.system.FlxAssets.FlxGraphicAsset;
@@ -27,7 +27,7 @@ enum Direction
  * The Parallax class is a FlxSprite extension that does linear transformations to mimic 3D graphics
  * @author Itz-Miles
  */
-class ParallaxSprite extends FlxSprite
+class FlxParallaxSprite extends FlxSprite
 {
 	private var pointOne:FlxObject = new FlxObject();
 	private var pointTwo:FlxObject = new FlxObject();
