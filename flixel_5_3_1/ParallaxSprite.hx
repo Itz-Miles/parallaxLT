@@ -30,31 +30,9 @@ enum Direction
  */
 class ParallaxSprite extends FlxSprite
 {
-	/**
-	 * X position of the bottom right corner of this object in world space.
-	 */
-	public var x2(default, set):Float = 0;
-
-	/**
-	 * Y position of the bottom right corner of this object in world space.
-	 */
-	public var y2(default, set):Float = 0;
-
-	/**
-	 * Controls how much the bottom right corner of the sprite is affected by camera scrolling. `0` = no movement (e.g. a background layer),
-	 * `1` = same movement speed as the foreground. Default value is `(1,1)`,
-	 * except for UI elements like `FlxButton` where it's `(0,0)`.
-	 */
-	public var scrollFactor2(default, null):FlxPoint;
-
-	/**
-	 * Helper variable that stores the screenSpace deltas
-	 */
+	private var pointOne:FlxObject = new FlxObject();
+	private var pointTwo:FlxObject = new FlxObject();
 	private var _bufferOne:FlxPoint = FlxPoint.get();
-
-	/**
-	 * Helper variable that stores the screenSpace deltas
-	 */
 	private var _bufferTwo:FlxPoint = FlxPoint.get();
 
 	/** An enum instance that determines what transformations are made to the sprite.
@@ -73,33 +51,7 @@ class ParallaxSprite extends FlxSprite
 	public function new(x:Float = 0, y:Float = 0, graphic:FlxGraphicAsset)
 	{
 		super(x, y, graphic);
-		width = frameWidth;
-		height = frameHeight;
 		origin.set(0, 0);
-	}
-
-	@:noCompletion
-	function set_x2(value:Float):Float
-	{
-		return x2 = value;
-	}
-
-	@:noCompletion
-	function set_y2(value:Float):Float
-	{
-		return y2 = value;
-	}
-
-	@:noCompletion
-	override function set_height(value:Float):Float
-	{
-		return y2 = y + value;
-	}
-
-	@:noCompletion
-	override function set_width(value:Float):Float
-	{
-		return x2 = x + value;
 	}
 
 	/**
@@ -115,17 +67,22 @@ class ParallaxSprite extends FlxSprite
 	public function fixate(anchorX:Int = 0, anchorY:Int = 0, scrollOneX:Float = 1, scrollOneY:Float = 1, scrollTwoX:Float = 1.1, scrollTwoY:Float = 1.1,
 			direct:String = 'horizontal'):ParallaxSprite
 	{
+		pointOne.scrollFactor.set(1, 1);
+		pointTwo.scrollFactor.set(1, 1);
 		pointOne.setPosition(anchorX + x, anchorY + y);
 
 		switch (direct.toLowerCase())
 		{
 			case 'horizontal', 'orizzontale', 'horisontell':
 				direction = HORIZONTAL;
+				pointTwo.setPosition((x + anchorX), (y + anchorY + frameHeight));
 			case 'vertical', 'vertikale', 'verticale', 'vertikal':
 				direction = VERTICAL;
+				pointTwo.setPosition((x + anchorX + frameWidth), (y + anchorY));
 		}
 		scrollFactor.set(scrollOneX, scrollOneY);
-		scrollFactor2.set(scrollTwoX, scrollTwoY);
+		pointOne.scrollFactor.set(scrollOneX, scrollOneY);
+		pointTwo.scrollFactor.set(scrollTwoX, scrollTwoY);
 		return this;
 	}
 
@@ -136,8 +93,8 @@ class ParallaxSprite extends FlxSprite
 
 		if (camera == null)
 			camera = FlxG.camera;
-		// _bufferOne.copyFrom(pointOne.getScreenPosition(camera));
-		// _bufferTwo.copyFrom(pointTwo.getScreenPosition(camera));
+		_bufferOne.copyFrom(pointOne.getScreenPosition(camera));
+		_bufferTwo.copyFrom(pointTwo.getScreenPosition(camera));
 
 		newRect.x = x - camera.scroll.x * scrollFactor.x;
 		newRect.y = y - camera.scroll.y * scrollFactor.y;
@@ -153,7 +110,8 @@ class ParallaxSprite extends FlxSprite
 
 	override public function destroy():Void
 	{
-		scrollFactor2 = FlxDestroyUtil.put(scrollFactor2);
+		pointOne = null;
+		pointTwo = null;
 		_bufferOne.put();
 		_bufferTwo.put();
 		direction = null;
