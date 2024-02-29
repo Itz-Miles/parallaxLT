@@ -1,5 +1,4 @@
-#if (flixel >= "5.3.1")
-package flixel_5_3_1;
+package;
 
 import flixel.math.FlxRect;
 import flixel.system.FlxAssets.FlxGraphicAsset;
@@ -44,13 +43,13 @@ class ParallaxSprite extends FlxSprite
 
 	/**
 	 * Creates a ParallaxSprite at specified position with a specified graphic.
-	 * @param graphic		The graphic to load (uses haxeflixel's default if null)
 	 * @param   X			The ParallaxSprite's initial X position.
 	 * @param   Y			The ParllaxSprite's initial Y position.
+	 * @param graphic		The graphic to load (uses haxeflixel's default if null)
 	 */
-	public function new(x:Float = 0, y:Float = 0, graphic:FlxGraphicAsset)
+	public function new(X:Float = 0, Y:Float = 0, graphic:FlxGraphicAsset)
 	{
-		super(x, y, graphic);
+		super(X, Y, graphic);
 		origin.set(0, 0);
 	}
 
@@ -142,7 +141,11 @@ class ParallaxSprite extends FlxSprite
 				_matrix.rotateWithTrig(_cosAngle, _sinAngle);
 		}
 
+		#if (flixel <= "5.3.1")
+		_point.addPoint(origin);
+		#else
 		getScreenPosition(_point, camera).subtractPoint(offset);
+		#end
 		if (isPixelPerfectRender(camera))
 			_point.floor();
 		_matrix.tx += _point.x;
@@ -158,7 +161,6 @@ class ParallaxSprite extends FlxSprite
 		return super.isSimpleRender(camera) && _matrix.c == 0 && _matrix.b == 0;
 	}
 }
-#end
 
 /*
 	Project your visuals with linear transformations that seamlessly integrate with HaxeFlixel's scrollfactors!
