@@ -1,4 +1,4 @@
-#if (flixel >= "5.3.1")
+#if (flixel >= "5.0.0")
 package flixel_5_3_1;
 
 import flixel.math.FlxRect;
