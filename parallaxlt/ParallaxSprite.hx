@@ -1,4 +1,4 @@
-package parallax;
+package parallaxlt;
 
 import flixel.math.FlxRect;
 import flixel.system.FlxAssets.FlxGraphicAsset;
