@@ -3,7 +3,7 @@
 
 ![](https://img.shields.io/github/repo-size/Itz-Miles/parallaxlt) ![](https://badgen.net/github/open-issues/Itz-Miles/parallaxlt) ![](https://badgen.net/badge/license/Apache%202.0)
 
-ParallaxLT is a powerful and easy-to-use Haxe library that distorts sprites via linear transaformations to mimic 3D graphics in [HaxeFlixel](https://haxeflixel.com).
+ParallaxLT is a Haxelib that distorts sprites via linear transaformations to mimic 3D graphics in [HaxeFlixel](https://haxeflixel.com).
 
 - Thourough Haxeflixel Support: Import a fine-tuned version of ParallaxSprite for your preferred version.
   
@@ -44,6 +44,6 @@ limitations under the License.
 <div align="center">
 
 ## Credits
-| ![](https://avatars.githubusercontent.com/u/95124554?s=64) | [It'z_Miles](https://twitter.com/Itz_MilesDev) | Creator of ParallaxLT |
+| ![](https://avatars.githubusercontent.com/u/95124554?s=64) | [It'z Miles](https://twitter.com/Itz_MilesDev) | Creator of ParallaxLT |
 | ---------------------------------------------------------- | ---------------------------------------------- | --------------------- |
 </div>
