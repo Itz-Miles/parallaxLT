@@ -5,7 +5,7 @@
 
 ParallaxLT is a Haxelib that distorts sprites via linear transaformations to mimic 3D graphics in [HaxeFlixel](https://haxeflixel.com).
 
-- Thourough Haxeflixel Support: Import a fine-tuned version of ParallaxSprite for your preferred version.
+- Thourough Haxeflixel Support: Consists of a single version-independent ParallaxSprite class.
   
 - Simple Integration: Easily integrate ParallaxSprites into your project with minimal code changes.
 
@@ -14,9 +14,9 @@ ParallaxLT is a Haxelib that distorts sprites via linear transaformations to mim
 ## Installation:
 
 To get started with ParallaxLT, simply install it however you like as a Haxelib:
-### command line:
+### in the command line:
 `haxelib install parallaxlt`
-### Maxe Module Manager:
+### with the Maxe Module Manager:
 ```json
     {
       "name": "parallaxlt",
@@ -31,7 +31,7 @@ Once that's said and done, declare it in your haxeflixel project:
 
 ## Licensing
 
-© 2023 It'z_Miles - some rights rerserved.
+© 2023 It'z Miles - some rights rerserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

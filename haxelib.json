@@ -12,8 +12,8 @@
     "matrix"
   ],
   "description": "Transform Sprites to Mimic 3D Graphics in Haxeflixel",
-  "version": "0.0.5",
-  "releasenote": "small formatting changes",
+  "version": "0.0.6",
+  "releasenote": "package refactor, screenspace bugfixes",
   "contributors": [
     "Itz-Miles"
   ]
