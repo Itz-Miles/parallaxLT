@@ -97,10 +97,13 @@ class ParallaxSprite extends FlxSprite
 		_bufferTwo.copyFrom(pointTwo.getScreenPosition(camera));
 
 		newRect.x = x - camera.scroll.x * scrollFactor.x;
-		newRect.y = y - camera.scroll.y * scrollFactor.y;
+		newRect.x += Math.min(_bufferTwo.x - _bufferOne.x, 0);
 
-		newRect.width = frameWidth;
-		newRect.height = frameHeight;
+		newRect.y = y - camera.scroll.y * scrollFactor.y;
+		newRect.y += Math.min(_bufferTwo.y - _bufferOne.y, 0);
+
+		newRect.width = (frameWidth * Math.abs(scale.x)) + Math.abs(_bufferTwo.x - _bufferOne.x);
+		newRect.height = (frameHeight * Math.abs(scale.y)) + Math.abs(_bufferTwo.y - _bufferOne.y);
 
 		if (isPixelPerfectRender(camera))
 			newRect.floor();
@@ -150,6 +153,9 @@ class ParallaxSprite extends FlxSprite
 			_point.floor();
 		_matrix.tx += _point.x;
 		_matrix.ty += _point.y;
+
+		_matrix.translate(-origin.x, -origin.y);
+		_matrix.scale(scale.x, scale.y);
 
 		camera.drawPixels(_frame, framePixels, _matrix, colorTransform, blend, antialiasing, shader);
 	}
